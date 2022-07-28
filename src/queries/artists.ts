@@ -43,7 +43,7 @@ export const fetchArtistBySlug = async (
       ${ARTIST_FRAGMENT}
     `,
   );
-  const { nodes  } = response.allArtists;
+  const {nodes} = response.allArtists;
 
   if (nodes.length === 0) {
     return null;
@@ -91,9 +91,19 @@ export const fetchArtistTracks = async (
   return response.allProcessedTracks.nodes.map(parseApiTrack);
 };
 
-export const fetchArtistDetails = async (id: string) => {
+export const fetchArtistDetails = async (
+  id: string,
+): Promise<{artist: IArtist | null; tracks: ITrack[]}> => {
   const artist = await fetchArtistByIdOrSlug(id);
-  const tracks = await fetchArtistTracks(artist!.id);
+
+  if (!artist) {
+    return {
+      artist,
+      tracks: [],
+    };
+  }
+
+  const tracks = await fetchArtistTracks(artist.id);
 
   return {
     artist,

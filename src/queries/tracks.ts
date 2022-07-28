@@ -59,7 +59,9 @@ export const fetchTrackByIdOrSlug = async (
 ): Promise<ITrack | null> => {
   try {
     return await fetchTrackById(param);
-  } catch (error) {}
+  } catch (error) {
+    // ignore and try fetch by slug
+  }
 
   return fetchTrackBySlug(param);
 };
