@@ -2,13 +2,18 @@
   "name": "spinamp-pipeline-sdk",
   "version": "0.0.1",
   "description": "Set of javascript async functions for communication between client app and the spinamp pipeline",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "format": "npx prettier --write src",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prepublishOnly": "yarn build"
   },
   "repository": {
     "type": "git",
