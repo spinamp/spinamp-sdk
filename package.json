@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "format": "npx prettier --write src"
   },
   "repository": {
@@ -35,10 +35,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "yarn format && yarm lint"
     }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "yarn format && yarn lint"
   }
 }
