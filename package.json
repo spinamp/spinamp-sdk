@@ -5,10 +5,11 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
-    "lib/**/*"
+    "src",
+    "lib"
   ],
   "scripts": {
-    "test": "jest --config jestconfig.json",
+    "test": "jest",
     "build": "tsc",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "format": "npx prettier --write src",
