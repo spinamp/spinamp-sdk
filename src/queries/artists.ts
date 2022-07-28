@@ -43,7 +43,7 @@ export const fetchArtistBySlug = async (
       ${ARTIST_FRAGMENT}
     `,
   );
-  const {nodes  } = response.allArtists;
+  const { nodes  } = response.allArtists;
 
   if (nodes.length === 0) {
     return null;
