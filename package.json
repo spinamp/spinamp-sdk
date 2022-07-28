@@ -1,0 +1,27 @@
+{
+  "name": "spinamp-pipeline-sdk",
+  "version": "0.0.1",
+  "description": "Set of javascript async functions for communication between client app and the spinamp pipeline",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spinamp/spinamp-pipeline-sdk.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spinamp/spinamp-pipeline-sdk/issues"
+  },
+  "homepage": "https://github.com/spinamp/spinamp-pipeline-sdk",
+  "dependencies": {
+    "graphql": "^16.5.0",
+    "graphql-request": "^4.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
