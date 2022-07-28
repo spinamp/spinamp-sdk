@@ -23,7 +23,7 @@ export const ARTIST_FRAGMENT = gql`
 `;
 
 export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
-  id: artist.id,
+    id: artist.id,
   slug: artist.slug,
   createdAtTime: artist.createdAtTime,
   name: artist.name,
