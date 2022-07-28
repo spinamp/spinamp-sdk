@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "npx prettier --write src"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,21 @@
     "graphql-request": "^4.3.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "husky": "^8.0.1",
+    "prettier": "^2.7.1",
     "typescript": "^4.7.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "yarn format && yarn lint"
   }
 }

@@ -1,12 +1,12 @@
 import {gql} from 'graphql-request';
 
 import {pipelineClient} from '@/pipelineClient';
-import {ITrack, IApiResponseTrack} from '@/types';
 import {parseApiTrack, TRACK_FRAGMENT} from '@/pipelineModelParsers';
+import {ITrack, IApiResponseTrack} from '@/types';
 
 export const fetchTrackById = async (trackId: string): Promise<ITrack> => {
-    const response = await pipelineClient.request(
-        gql`
+  const response = await pipelineClient.request(
+    gql`
       query Track {
         processedTrackById(
           id: "${trackId}"
@@ -17,16 +17,16 @@ export const fetchTrackById = async (trackId: string): Promise<ITrack> => {
       }
       ${TRACK_FRAGMENT}
     `,
-    );
+  );
 
-    return parseApiTrack(response.processedTrackById as IApiResponseTrack);
+  return parseApiTrack(response.processedTrackById as IApiResponseTrack);
 };
 
 export const fetchTrackBySlug = async (
-    slug: string,
+  slug: string,
 ): Promise<ITrack | null> => {
-    const response = await pipelineClient.request(
-        gql`
+  const response = await pipelineClient.request(
+    gql`
       query TrackBySlug {
         allProcessedTracks(
           first: 1
@@ -41,34 +41,34 @@ export const fetchTrackBySlug = async (
       }
       ${TRACK_FRAGMENT}
     `,
-    );
-    const {nodes} = response.allProcessedTracks;
+  );
+  const {nodes} = response.allProcessedTracks;
 
-    if (nodes.length === 0) {
-        return null;
-    }
+  if (nodes.length === 0) {
+    return null;
+  }
 
-    return parseApiTrack(nodes[0] as IApiResponseTrack);
+  return parseApiTrack(nodes[0] as IApiResponseTrack);
 };
 
 export const fetchTrackByUrlParam = async (param: string): Promise<ITrack> =>
-    (await fetchTrackBySlug(param)) || (await fetchTrackById(param));
+  (await fetchTrackBySlug(param)) || (await fetchTrackById(param));
 
 export const fetchTrackByIdOrSlug = async (
-    param: string,
+  param: string,
 ): Promise<ITrack | null> => {
-    try {
-        return await fetchTrackById(param);
-    } catch (error) {}
+  try {
+    return await fetchTrackById(param);
+  } catch (error) {}
 
-    return fetchTrackBySlug(param);
+  return fetchTrackBySlug(param);
 };
 
 export const fetchTracksByIds = async (
-    trackIds: string[],
+  trackIds: string[],
 ): Promise<ITrack[]> => {
-    const response = await pipelineClient.request(
-        gql`
+  const response = await pipelineClient.request(
+    gql`
       query TracksById($trackIds: [String!]) {
         allProcessedTracks(
           orderBy: CREATED_AT_TIME_DESC
@@ -81,11 +81,11 @@ export const fetchTracksByIds = async (
       }
       ${TRACK_FRAGMENT}
     `,
-        {trackIds},
-    );
+    {trackIds},
+  );
 
-    const tracks: ITrack[] = response.allProcessedTracks.nodes.map(parseApiTrack);
-    return trackIds
-        .map(trackId => tracks.find(track => track.id === trackId))
-        .filter(track => !!track) as ITrack[];
+  const tracks: ITrack[] = response.allProcessedTracks.nodes.map(parseApiTrack);
+  return trackIds
+    .map(trackId => tracks.find(track => track.id === trackId))
+    .filter(track => !!track) as ITrack[];
 };

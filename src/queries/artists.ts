@@ -1,17 +1,17 @@
 import {gql} from 'graphql-request';
 
 import {pipelineClient} from '@/pipelineClient';
-import {IArtist, ITrack, IApiResponseArtist} from '@/types';
 import {
-    ARTIST_FRAGMENT,
-    parseApiArtist,
-    parseApiTrack,
-    TRACK_FRAGMENT,
+  ARTIST_FRAGMENT,
+  parseApiArtist,
+  parseApiTrack,
+  TRACK_FRAGMENT,
 } from '@/pipelineModelParsers';
+import {IArtist, ITrack, IApiResponseArtist} from '@/types';
 
 export const fetchArtistById = async (artistId: string): Promise<IArtist> => {
-    const artist = await pipelineClient.request(
-        gql`
+  const artist = await pipelineClient.request(
+    gql`
       query Artist {
         artistById(id: "${artistId}") {
           ...ArtistDetails
@@ -19,16 +19,16 @@ export const fetchArtistById = async (artistId: string): Promise<IArtist> => {
       }
       ${ARTIST_FRAGMENT}
     `,
-    );
+  );
 
-    return parseApiArtist(artist.artistById as IApiResponseArtist);
+  return parseApiArtist(artist.artistById as IApiResponseArtist);
 };
 
 export const fetchArtistBySlug = async (
-    slug: string,
+  slug: string,
 ): Promise<IArtist | null> => {
-    const response = await pipelineClient.request(
-        gql`
+  const response = await pipelineClient.request(
+    gql`
       query ArtistBySlug {
         allArtists(
           first: 1
@@ -42,33 +42,35 @@ export const fetchArtistBySlug = async (
       }
       ${ARTIST_FRAGMENT}
     `,
-    );
-    const {nodes} = response.allArtists;
+  );
+  const {nodes} = response.allArtists;
 
-    if (nodes.length === 0) {
-        return null;
-    }
+  if (nodes.length === 0) {
+    return null;
+  }
 
-    return parseApiArtist(nodes[0] as IApiResponseArtist);
+  return parseApiArtist(nodes[0] as IApiResponseArtist);
 };
 
 export const fetchArtistByUrlParam = async (param: string): Promise<IArtist> =>
-    (await fetchArtistBySlug(param)) || (await fetchArtistById(param));
+  (await fetchArtistBySlug(param)) || (await fetchArtistById(param));
 
 export const fetchArtistByIdOrSlug = async (
-    param: string,
+  param: string,
 ): Promise<IArtist | null> => {
-    try {
-        return await fetchArtistById(param);
-    } catch (error) {}
+  try {
+    return await fetchArtistById(param);
+  } catch (error) {
+    // ignore and try fetch by slug
+  }
 
-    return fetchArtistBySlug(param);
+  return fetchArtistBySlug(param);
 };
 
 export const fetchArtistTracks = async (
-    artistId: string,
+  artistId: string,
 ): Promise<ITrack[]> => {
-    const response = await pipelineClient.request(gql`
+  const response = await pipelineClient.request(gql`
     query ArtistTracks {
       allProcessedTracks(
         orderBy: CREATED_AT_TIME_DESC
@@ -86,15 +88,15 @@ export const fetchArtistTracks = async (
     ${TRACK_FRAGMENT}
   `);
 
-    return response.allProcessedTracks.nodes.map(parseApiTrack);
+  return response.allProcessedTracks.nodes.map(parseApiTrack);
 };
 
 export const fetchArtistDetails = async (id: string) => {
-    const artist = await fetchArtistByIdOrSlug(id);
-    const tracks = await fetchArtistTracks(artist!.id);
+  const artist = await fetchArtistByIdOrSlug(id);
+  const tracks = await fetchArtistTracks(artist!.id);
 
-    return {
-        artist,
-        tracks,
-    };
+  return {
+    artist,
+    tracks,
+  };
 };

@@ -4,7 +4,7 @@ import {pipelineClient} from '@/pipelineClient';
 import {IMusicPlatformData} from '@/types';
 
 export const fetchAllPlatforms = async (): Promise<IMusicPlatformData[]> => {
-    const response = await pipelineClient.request(gql`
+  const response = await pipelineClient.request(gql`
     query Platforms {
       allPlatforms {
         nodes {
@@ -15,13 +15,13 @@ export const fetchAllPlatforms = async (): Promise<IMusicPlatformData[]> => {
     }
   `);
 
-    return response.allPlatforms.nodes;
+  return response.allPlatforms.nodes;
 };
 
 export const fetchPlatformById = async (
-    id: string,
+  id: string,
 ): Promise<{id: string; name: string}> => {
-    const response = await pipelineClient.request(gql`
+  const response = await pipelineClient.request(gql`
     query PlatformById {
       platformById(id: "${id}") {
         id
@@ -30,5 +30,5 @@ export const fetchPlatformById = async (
     }
   `);
 
-    return response.platformById;
+  return response.platformById;
 };
