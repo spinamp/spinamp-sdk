@@ -76,7 +76,7 @@ export const fetchAllTracks = async ({
 export const fetchTrackById = async (
   trackId: string,
 ): Promise<ITrack | null> => {
-  const track = await pipelineClient.request(
+  const {processedTrackById} = await pipelineClient.request(
     gql`
       query Track($trackId: String!) {
         processedTrackById(id: $trackId) {
@@ -89,11 +89,11 @@ export const fetchTrackById = async (
     {trackId},
   );
 
-  if (!track.processedTrackById) {
+  if (!processedTrackById) {
     return null;
   }
 
-  return parseApiTrack(track.processedTrackById as IApiResponseTrack);
+  return parseApiTrack(processedTrackById as IApiResponseTrack);
 };
 
 export const fetchTrackBySlug = async (

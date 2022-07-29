@@ -82,7 +82,7 @@ export const fetchAllArtists = async ({
 export const fetchArtistById = async (
   artistId: string,
 ): Promise<IArtist | null> => {
-  const artist = await pipelineClient.request(
+  const {artistById} = await pipelineClient.request(
     gql`
       query Artist($artistId: String!) {
         artistById(id: $artistId) {
@@ -94,17 +94,17 @@ export const fetchArtistById = async (
     {artistId},
   );
 
-  if (!artist) {
+  if (!artistById) {
     return null;
   }
 
-  return parseApiArtist(artist.artistById as IApiResponseArtist);
+  return parseApiArtist(artistById as IApiResponseArtist);
 };
 
 export const fetchArtistBySlug = async (
   slug: string,
 ): Promise<IArtist | null> => {
-  const response = await pipelineClient.request(
+  const {allArtists} = await pipelineClient.request(
     gql`
       query ArtistBySlug($slug: String) {
         allArtists(
@@ -121,13 +121,12 @@ export const fetchArtistBySlug = async (
     `,
     {slug},
   );
-  const {nodes} = response.allArtists;
 
-  if (nodes.length === 0) {
+  if (allArtists.nodes.length === 0) {
     return null;
   }
 
-  return parseApiArtist(nodes[0] as IApiResponseArtist);
+  return parseApiArtist(allArtists.nodes[0] as IApiResponseArtist);
 };
 
 export const fetchArtistBySlugOrId = async (
