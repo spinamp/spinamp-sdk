@@ -2,24 +2,98 @@ import {gql} from 'graphql-request';
 
 import {pipelineClient} from '@/pipelineClient';
 import {parseApiTrack, TRACK_FRAGMENT} from '@/pipelineModelParsers';
-import {ITrack, IApiResponseTrack} from '@/types';
+import {
+  ITrack,
+  IApiResponseTrack,
+  IApiListQueryResponse,
+  IApiListQueryParams,
+} from '@/types';
 
-export const fetchTrackById = async (trackId: string): Promise<ITrack> => {
-  const response = await pipelineClient.request(
+export const fetchAllTracks = async ({
+  after,
+  before,
+  first,
+  last,
+  offset,
+  filter,
+  orderBy = ['CREATED_AT_TIME_DESC'],
+}: IApiListQueryParams = {}): Promise<IApiListQueryResponse<ITrack>> => {
+  const {allProcessedTracks} = await pipelineClient.request(
     gql`
-      query Track {
-        processedTrackById(
-          id: "${trackId}"
+      query AllTracks(
+        $after: Cursor
+        $before: Cursor
+        $first: Int
+        $last: Int
+        $offset: Int
+        $filter: ProcessedTrackFilter
+        $orderBy: [ProcessedTracksOrderBy!]
+      ) {
+        allProcessedTracks(
+          after: $after
+          before: $before
+          first: $first
+          last: $last
+          offset: $offset
+          filter: $filter
+          orderBy: $orderBy
         ) {
+          totalCount
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+          }
+          nodes {
+            ...TrackDetails
+          }
+        }
+      }
+      ${TRACK_FRAGMENT}
+    `,
+    {
+      after,
+      before,
+      first,
+      last,
+      offset,
+      filter,
+      orderBy,
+    },
+  );
+
+  const {totalCount, pageInfo, nodes} = allProcessedTracks;
+  const items = (nodes as IApiResponseTrack[]).map(parseApiTrack);
+
+  return {
+    totalCount,
+    pageInfo,
+    items,
+  };
+};
+
+export const fetchTrackById = async (
+  trackId: string,
+): Promise<ITrack | null> => {
+  const {processedTrackById} = await pipelineClient.request(
+    gql`
+      query Track($trackId: String!) {
+        processedTrackById(id: $trackId) {
           ...TrackDetails
           description
         }
       }
       ${TRACK_FRAGMENT}
     `,
+    {trackId},
   );
 
-  return parseApiTrack(response.processedTrackById as IApiResponseTrack);
+  if (!processedTrackById) {
+    return null;
+  }
+
+  return parseApiTrack(processedTrackById as IApiResponseTrack);
 };
 
 export const fetchTrackBySlug = async (
@@ -27,11 +101,11 @@ export const fetchTrackBySlug = async (
 ): Promise<ITrack | null> => {
   const response = await pipelineClient.request(
     gql`
-      query TrackBySlug {
+      query TrackBySlug($slug: String) {
         allProcessedTracks(
           first: 1
           orderBy: CREATED_AT_TIME_ASC
-          filter: {slug: {startsWithInsensitive: "${slug}"}}
+          filter: {slug: {startsWithInsensitive: $slug}}
         ) {
           nodes {
             ...TrackDetails
@@ -41,6 +115,7 @@ export const fetchTrackBySlug = async (
       }
       ${TRACK_FRAGMENT}
     `,
+    {slug},
   );
   const {nodes} = response.allProcessedTracks;
 
@@ -51,20 +126,15 @@ export const fetchTrackBySlug = async (
   return parseApiTrack(nodes[0] as IApiResponseTrack);
 };
 
-export const fetchTrackByUrlParam = async (param: string): Promise<ITrack> =>
-  (await fetchTrackBySlug(param)) || (await fetchTrackById(param));
+export const fetchTrackBySlugOrId = async (
+  slugOrId: string,
+): Promise<ITrack | null> =>
+  (await fetchTrackBySlug(slugOrId)) || (await fetchTrackById(slugOrId));
 
 export const fetchTrackByIdOrSlug = async (
-  param: string,
-): Promise<ITrack | null> => {
-  try {
-    return await fetchTrackById(param);
-  } catch (error) {
-    // ignore and try fetch by slug
-  }
-
-  return fetchTrackBySlug(param);
-};
+  idOrSlug: string,
+): Promise<ITrack | null> =>
+  (await fetchTrackById(idOrSlug)) || (await fetchTrackBySlug(idOrSlug));
 
 export const fetchTracksByIds = async (
   trackIds: string[],

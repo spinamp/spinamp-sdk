@@ -20,7 +20,7 @@ export const fetchAllPlatforms = async (): Promise<IMusicPlatformData[]> => {
 
 export const fetchPlatformById = async (
   id: string,
-): Promise<{id: string; name: string}> => {
+): Promise<IMusicPlatformData> => {
   const response = await pipelineClient.request(gql`
     query PlatformById {
       platformById(id: "${id}") {
