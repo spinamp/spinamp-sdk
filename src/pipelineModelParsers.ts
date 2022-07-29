@@ -1,26 +1,5 @@
-import {gql} from 'graphql-request';
-
 import {config} from '@/config';
 import {IArtist, ITrack, IApiResponseArtist, IApiResponseTrack} from '@/types';
-
-export const ARTIST_FRAGMENT = gql`
-  fragment ArtistDetails on Artist {
-    id
-    createdAtTime
-    name
-    slug
-    artistProfilesByArtistId {
-      nodes {
-        avatarUrl
-        createdAtTime
-        name
-        platformId
-        platformInternalId
-        websiteUrl
-      }
-    }
-  }
-`;
 
 export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
   id: artist.id,
@@ -48,28 +27,6 @@ export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
     {},
   ),
 });
-
-export const TRACK_FRAGMENT = gql`
-  fragment TrackDetails on ProcessedTrack {
-    id
-    platformInternalId
-    title
-    slug
-    description
-    createdAtTime
-    platformId
-    websiteUrl
-    lossyAudioUrl
-    lossyArtworkUrl
-    lossyAudioIpfsHash
-    lossyArtworkIpfsHash
-    artistId
-    artistByArtistId {
-      ...ArtistDetails
-    }
-  }
-  ${ARTIST_FRAGMENT}
-`;
 
 export const parseApiTrack = (track: IApiResponseTrack): ITrack => {
   const lossyAudioUrl =
