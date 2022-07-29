@@ -8,6 +8,7 @@ export {
   ICollectionTrack,
   IArtist,
   IArtistProfile,
-  MusicPlatform,
   IMusicPlatformData,
+  IApiListQueryParams,
+  IApiListQueryResponse,
 } from '@/types';

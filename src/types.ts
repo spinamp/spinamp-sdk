@@ -1,5 +1,3 @@
-export type MusicPlatform = string;
-
 export interface IMusicPlatformData {
   id: string;
   name: string;
@@ -11,13 +9,13 @@ export interface IArtist {
   createdAtTime: string;
   slug: string;
   profiles: {
-    [key: MusicPlatform]: IArtistProfile;
+    [key: string]: IArtistProfile;
   };
 }
 
 export interface IArtistProfile {
   platformInternalId: string;
-  platformId: MusicPlatform;
+  platformId: string;
   name: string;
   createdAtTime: string;
   avatarUrl?: string;
@@ -29,7 +27,7 @@ export interface ITrack {
   platformInternalId: string;
   title: string;
   slug: string;
-  platformId: MusicPlatform;
+  platformId: string;
   artistId: string;
   artist: IArtist;
   lossyAudioUrl: string;
@@ -64,7 +62,7 @@ export interface IApiNftResponse {
   };
 }
 
-export interface IApiListQueryResponse<T> {
+export interface IApiListQueryResponse<ListItem> {
   totalCount: number;
   pageInfo: {
     hasNextPage: boolean;
@@ -72,7 +70,7 @@ export interface IApiListQueryResponse<T> {
     startCursor: string;
     endCursor: string;
   };
-  items: T[];
+  items: ListItem[];
 }
 
 export interface IApiListQueryParams {
