@@ -39,6 +39,10 @@ export interface ITrack {
   websiteUrl?: string;
 }
 
+export interface ICollectionTrack extends ITrack {
+  quantity: number;
+}
+
 export interface IApiResponseArtist extends Omit<IArtist, 'profiles'> {
   artistProfilesByArtistId: {
     nodes: IArtistProfile[];
@@ -49,6 +53,15 @@ export interface IApiResponseTrack extends Omit<ITrack, 'artist'> {
   artistByArtistId: IApiResponseArtist;
   lossyAudioIpfsHash?: string;
   lossyArtworkIpfsHash?: string;
+}
+
+export interface IApiNftResponse {
+  id: string;
+  erc721NftsProcessedTracksByErc721NftId: {
+    nodes: {
+      processedTrackByProcessedTrackId: IApiResponseTrack;
+    }[];
+  };
 }
 
 export interface IApiListQueryResponse<T> {

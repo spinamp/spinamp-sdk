@@ -1,5 +1,13 @@
 export * from '@/queries/artists';
+export * from '@/queries/collection';
 export * from '@/queries/platforms';
 export * from '@/queries/tracks';
 
-export {MusicPlatform, IArtist, ITrack, IArtistProfile} from '@/types';
+export {
+  ITrack,
+  ICollectionTrack,
+  IArtist,
+  IArtistProfile,
+  MusicPlatform,
+  IMusicPlatformData,
+} from '@/types';
