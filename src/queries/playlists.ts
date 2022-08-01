@@ -1,6 +1,7 @@
 import {firebaseClient} from '@/firebaseClient';
 import {parseApiPlaylist} from '@/modelParsers';
-import {IApiResponsePlaylist, IPlaylist} from '@/types';
+import {fetchTracksByIds} from '@/queries/tracks';
+import {IApiResponsePlaylist, IPlaylist, ITrack} from '@/types';
 
 export const fetchFeaturedPlaylists = async (): Promise<IPlaylist[]> => {
   const playlists = await firebaseClient.get<IApiResponsePlaylist[]>(
@@ -11,11 +12,15 @@ export const fetchFeaturedPlaylists = async (): Promise<IPlaylist[]> => {
 
 export const fetchPlaylistById = async (
   playlistId: string,
-): Promise<IPlaylist> => {
+): Promise<{playlist: IPlaylist; playlistTracks: ITrack[]}> => {
   const playlist = await firebaseClient.get<IApiResponsePlaylist>(
     `playlist/${playlistId}`,
   );
-  return parseApiPlaylist(playlist);
+  const playlistTracks = await fetchTracksByIds(playlist.trackIds);
+  return {
+    playlist: parseApiPlaylist(playlist),
+    playlistTracks,
+  };
 };
 
 export const fetchCollectorPlaylists = async (

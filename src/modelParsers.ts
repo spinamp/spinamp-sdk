@@ -66,7 +66,5 @@ export const parseApiPlaylist = (
   id: playlist.id,
   title: playlist.title,
   trackIds: playlist.trackIds,
-  followedPlaylistId: playlist.followedPlaylistId,
-  followedCollectionAddress: playlist.followedCollectionAddress,
   collector: playlist.collector,
 });

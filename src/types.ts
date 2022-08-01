@@ -43,10 +43,8 @@ export interface ICollectionTrack extends ITrack {
 
 export interface IPlaylist {
   id: string;
-  title?: string;
+  title: string;
   trackIds: string[];
-  followedPlaylistId?: string;
-  followedCollectionAddress?: string;
   collector?: string;
 }
 

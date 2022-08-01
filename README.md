@@ -77,6 +77,19 @@ interface IMusicPlatformData {
 }
 ```
 
+### IPlaylist
+
+Object describing playlist entity
+
+```
+interface IPlaylist {
+    id: string;
+    title: string;
+    trackIds: string[];
+    collector?: string; // address of user who created playlist
+}
+```
+
 ### IApiListQueryParams
 
 Set of parameters which can be passed to queries which return list of objects (`fetchAllArtists`, `fetchAllTracks`). It can be used for pagination, sorting and filtering.
@@ -189,3 +202,17 @@ Returns list of all platforms, which tracks exist in spinamp database.
 ### fetchPlatformById(platformId: string): Promise<IMusicPlatformData>
 
 Returns information about particular platform based on provided platform id.
+
+## Playlists
+
+### fetchFeaturedPlaylists(): Promise<IPlaylist[]>
+
+Returns list of currently promoted playlists.
+
+### fetchPlaylistById(id: string): Promise<{playlist: IPlaylist, playlistTracks: ITrack[]}>
+
+Gets playlist by provided playlist id. Returns `playlist` object and list of full tracks belonging to this playlist.
+
+### fetchCollectorPlaylists(collectorAddress: string): Promise<IPlaylist[]>
+
+Returns list of playlists created by user whit provided address.
