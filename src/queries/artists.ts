@@ -1,7 +1,7 @@
 import {gql} from 'graphql-request';
 
+import {parseApiArtist, parseApiTrack} from '@/modelParsers';
 import {pipelineClient} from '@/pipelineClient';
-import {parseApiArtist, parseApiTrack} from '@/pipelineModelParsers';
 import {ARTIST_FRAGMENT, TRACK_FRAGMENT} from '@/queries/fragments';
 import {
   IArtist,

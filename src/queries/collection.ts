@@ -1,7 +1,7 @@
 import {gql} from 'graphql-request';
 
+import {parseApiTrack} from '@/modelParsers';
 import {pipelineClient} from '@/pipelineClient';
-import {parseApiTrack} from '@/pipelineModelParsers';
 import {TRACK_FRAGMENT} from '@/queries/fragments';
 import {IApiNftResponse, ICollectionTrack, ITrack} from '@/types';
 
