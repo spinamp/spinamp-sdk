@@ -8,7 +8,7 @@ export const firebaseClient = {
           if (!response.ok) {
             reject({
               message: response.statusText,
-              code: response.status
+              code: response.status,
             });
             return;
           }
