@@ -1,4 +1,4 @@
-# spinamp-pipeline-sdk
+# spinamp-sdk
 
 Set of javascript async typed functions for communication between client app and the spinamp pipeline.
 
