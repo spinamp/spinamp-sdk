@@ -1,5 +1,12 @@
 import {config} from '@/config';
-import {IArtist, ITrack, IApiResponseArtist, IApiResponseTrack} from '@/types';
+import {
+  IArtist,
+  ITrack,
+  IApiResponseArtist,
+  IApiResponseTrack,
+  IApiResponsePlaylist,
+  IPlaylist,
+} from '@/types';
 
 export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
   id: artist.id,
@@ -52,3 +59,14 @@ export const parseApiTrack = (track: IApiResponseTrack): ITrack => {
     artist: parseApiArtist(track.artistByArtistId),
   };
 };
+
+export const parseApiPlaylist = (
+  playlist: IApiResponsePlaylist,
+): IPlaylist => ({
+  id: playlist.id,
+  title: playlist.title,
+  trackIds: playlist.trackIds,
+  followedPlaylistId: playlist.followedPlaylistId,
+  followedCollectionAddress: playlist.followedCollectionAddress,
+  collector: playlist.collector,
+});

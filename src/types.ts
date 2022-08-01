@@ -41,6 +41,15 @@ export interface ICollectionTrack extends ITrack {
   quantity: number;
 }
 
+export interface IPlaylist {
+  id: string;
+  title?: string;
+  trackIds: string[];
+  followedPlaylistId?: string;
+  followedCollectionAddress?: string;
+  collector?: string;
+}
+
 export interface IApiResponseArtist extends Omit<IArtist, 'profiles'> {
   artistProfilesByArtistId: {
     nodes: IArtistProfile[];
@@ -51,6 +60,10 @@ export interface IApiResponseTrack extends Omit<ITrack, 'artist'> {
   artistByArtistId: IApiResponseArtist;
   lossyAudioIpfsHash?: string;
   lossyArtworkIpfsHash?: string;
+}
+
+export interface IApiResponsePlaylist extends IPlaylist {
+  type: string;
 }
 
 export interface IApiNftResponse {
