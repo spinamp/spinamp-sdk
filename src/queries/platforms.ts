@@ -1,10 +1,10 @@
 import {gql} from 'graphql-request';
 
-import {pipelineClient} from '@/pipelineClient';
+import {spindexerClient} from '@/spindexerClient';
 import {IMusicPlatformData} from '@/types';
 
 export const fetchAllPlatforms = async (): Promise<IMusicPlatformData[]> => {
-  const response = await pipelineClient.request(gql`
+  const response = await spindexerClient.request(gql`
     query Platforms {
       allPlatforms {
         nodes {
@@ -21,7 +21,7 @@ export const fetchAllPlatforms = async (): Promise<IMusicPlatformData[]> => {
 export const fetchPlatformById = async (
   id: string,
 ): Promise<IMusicPlatformData> => {
-  const response = await pipelineClient.request(gql`
+  const response = await spindexerClient.request(gql`
     query PlatformById {
       platformById(id: "${id}") {
         id
