@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/spinamp/spinamp-pipeline-sdk.git"
+    "url": "git+https://github.com/spinamp/spinamp-sdk.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/spinamp/spinamp-pipeline-sdk/issues"
+    "url": "https://github.com/spinamp/spinamp-sdk/issues"
   },
-  "homepage": "https://github.com/spinamp/spinamp-pipeline-sdk",
+  "homepage": "https://github.com/spinamp/spinamp-sdk",
   "dependencies": {
     "graphql": "^16.5.0",
     "graphql-request": "^4.3.0"
