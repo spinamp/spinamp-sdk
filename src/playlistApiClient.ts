@@ -1,9 +1,9 @@
 import {config} from '@/config';
 
-export const firebaseClient = {
+export const playlistApiClient = {
   get: <ResponseType>(url: string): Promise<ResponseType> => {
     return new Promise((resolve, reject) => {
-      fetch(`${config.FIREBASE_URL}/${url}`)
+      fetch(`${config.PLAYLIST_NODE_URL}/${url}`)
         .then(response => {
           if (!response.ok) {
             reject({

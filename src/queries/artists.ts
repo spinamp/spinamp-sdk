@@ -1,8 +1,8 @@
 import {gql} from 'graphql-request';
 
 import {parseApiArtist, parseApiTrack} from '@/modelParsers';
-import {pipelineClient} from '@/pipelineClient';
 import {ARTIST_FRAGMENT, TRACK_FRAGMENT} from '@/queries/fragments';
+import {spindexerClient} from '@/spindexerClient';
 import {
   IArtist,
   ITrack,
@@ -20,7 +20,7 @@ export const fetchAllArtists = async ({
   filter,
   orderBy = ['NAME_ASC'],
 }: IApiListQueryParams = {}): Promise<IApiListQueryResponse<IArtist>> => {
-  const {allArtists} = await pipelineClient.request(
+  const {allArtists} = await spindexerClient.request(
     gql`
       query AllArtists(
         $after: Cursor
@@ -78,7 +78,7 @@ export const fetchAllArtists = async ({
 export const fetchArtistById = async (
   artistId: string,
 ): Promise<IArtist | null> => {
-  const {artistById} = await pipelineClient.request(
+  const {artistById} = await spindexerClient.request(
     gql`
       query Artist($artistId: String!) {
         artistById(id: $artistId) {
@@ -100,7 +100,7 @@ export const fetchArtistById = async (
 export const fetchArtistBySlug = async (
   slug: string,
 ): Promise<IArtist | null> => {
-  const {allArtists} = await pipelineClient.request(
+  const {allArtists} = await spindexerClient.request(
     gql`
       query ArtistBySlug($slug: String) {
         allArtists(
@@ -138,7 +138,7 @@ export const fetchArtistByIdOrSlug = async (
 export const fetchArtistTracks = async (
   artistId: string,
 ): Promise<ITrack[]> => {
-  const response = await pipelineClient.request(
+  const response = await spindexerClient.request(
     gql`
       query ArtistTracks($artistId: String) {
         allProcessedTracks(

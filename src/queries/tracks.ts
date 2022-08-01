@@ -1,8 +1,8 @@
 import {gql} from 'graphql-request';
 
 import {parseApiTrack} from '@/modelParsers';
-import {pipelineClient} from '@/pipelineClient';
 import {TRACK_FRAGMENT} from '@/queries/fragments';
+import {spindexerClient} from '@/spindexerClient';
 import {
   ITrack,
   IApiResponseTrack,
@@ -19,7 +19,7 @@ export const fetchAllTracks = async ({
   filter,
   orderBy = ['CREATED_AT_TIME_DESC'],
 }: IApiListQueryParams = {}): Promise<IApiListQueryResponse<ITrack>> => {
-  const {allProcessedTracks} = await pipelineClient.request(
+  const {allProcessedTracks} = await spindexerClient.request(
     gql`
       query AllTracks(
         $after: Cursor
@@ -77,7 +77,7 @@ export const fetchAllTracks = async ({
 export const fetchTrackById = async (
   trackId: string,
 ): Promise<ITrack | null> => {
-  const {processedTrackById} = await pipelineClient.request(
+  const {processedTrackById} = await spindexerClient.request(
     gql`
       query Track($trackId: String!) {
         processedTrackById(id: $trackId) {
@@ -100,7 +100,7 @@ export const fetchTrackById = async (
 export const fetchTrackBySlug = async (
   slug: string,
 ): Promise<ITrack | null> => {
-  const response = await pipelineClient.request(
+  const response = await spindexerClient.request(
     gql`
       query TrackBySlug($slug: String) {
         allProcessedTracks(
@@ -140,7 +140,7 @@ export const fetchTrackByIdOrSlug = async (
 export const fetchTracksByIds = async (
   trackIds: string[],
 ): Promise<ITrack[]> => {
-  const response = await pipelineClient.request(
+  const response = await spindexerClient.request(
     gql`
       query TracksById($trackIds: [String!]) {
         allProcessedTracks(
