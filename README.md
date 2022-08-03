@@ -1,6 +1,6 @@
 # spinamp-sdk
 
-Set of javascript async typed functions for communication between client app and the spinamp pipeline.
+Set of javascript async typed functions for communication between client app and the Spindex.
 
 # Models
 
