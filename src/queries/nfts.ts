@@ -35,7 +35,9 @@ export const fetchTrackNftsOwners = async (
   return [...new Set(owners)];
 };
 
-export const fetchArtistNfts = async (artistId: string): Promise<INft[]> => {
+export const fetchArtistNfts = async (
+  artistId: string,
+): Promise<ITrackNft[]> => {
   const {artistById} = await spindexClient.request(
     gql`
       query NftsForArtist($artistId: String!) {
@@ -71,7 +73,7 @@ export const fetchArtistNfts = async (artistId: string): Promise<INft[]> => {
       trackId: node.processedTrackId,
     }));
     return [...result, ...trackNfts];
-  }, []) as ITrackNft[];
+  }, []);
 };
 
 export const fetchArtistNftsOwners = async (
