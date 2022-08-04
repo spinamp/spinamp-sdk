@@ -1,6 +1,6 @@
 {
   "name": "@spinamp/spinamp-sdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Set of javascript async functions for communication between client app and the spinamp pipeline",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
