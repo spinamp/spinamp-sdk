@@ -52,6 +52,10 @@ export interface INft {
   metadata: unknown;
 }
 
+export interface ITrackNft extends INft {
+  trackId: string;
+}
+
 export interface IPlaylist {
   id: string;
   title: string;

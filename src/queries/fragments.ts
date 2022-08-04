@@ -40,3 +40,16 @@ export const TRACK_FRAGMENT = gql`
   }
   ${ARTIST_FRAGMENT}
 `;
+
+export const NFT_FRAGMENT = gql`
+  fragment NftDetails on Nft {
+    id
+    createdAtTime
+    createdAtEthereumBlockNumber
+    tokenId
+    contractAddress
+    platformId
+    owner
+    metadata
+  }
+`;
