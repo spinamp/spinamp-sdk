@@ -7,6 +7,8 @@ export * from '@/queries/platforms';
 export * from '@/queries/playlists';
 export * from '@/queries/tracks';
 
+export * from '@/utils/images';
+
 export {
   ITrack,
   ICollectionTrack,
