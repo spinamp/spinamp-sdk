@@ -38,7 +38,7 @@ export const fetchCollectorPlaylists = async (
 };
 
 export const createPlaylist = async (
-  playlist: IPlaylist,
+  playlist: Omit<IPlaylist, 'id'>,
   signer: Signer,
 ): Promise<{id: string}> => {
   const msg = JSON.stringify({...playlist, type: 'custom'});
