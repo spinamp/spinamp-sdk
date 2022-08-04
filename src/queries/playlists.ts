@@ -56,8 +56,8 @@ export const updatePlaylist = async (
   id: string,
   data: Partial<IPlaylist>,
   signer: Signer,
-): Promise<{id: string; trackIds: string[], title: string}> => {
-  const msg = JSON.stringify({...data, type:'custom'});
+): Promise<{id: string; trackIds: string[]; title: string}> => {
+  const msg = JSON.stringify({...data, type: 'custom'});
 
   const body = {
     msg,

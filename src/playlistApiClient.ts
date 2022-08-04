@@ -25,9 +25,9 @@ export const playlistApiClient = {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       })
         .then(response => {
           if (!response.ok) {
@@ -50,9 +50,9 @@ export const playlistApiClient = {
         method: 'PUT',
         body: JSON.stringify(body),
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       })
         .then(response => {
           if (!response.ok) {
