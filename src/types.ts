@@ -41,6 +41,21 @@ export interface ICollectionTrack extends ITrack {
   quantity: number;
 }
 
+export interface INft {
+  id: string;
+  createdAtTime: string;
+  createdAtEthereumBlockNumber: string;
+  tokenId: string;
+  contractAddress: string;
+  platformId: string;
+  owner: string;
+  metadata: unknown;
+}
+
+export interface ITrackNft extends INft {
+  trackId: string;
+}
+
 export interface IPlaylist {
   id: string;
   title: string;
@@ -64,7 +79,7 @@ export interface IApiResponsePlaylist extends IPlaylist {
   type: string;
 }
 
-export interface IApiNftResponse {
+export interface IApiResponseCollection {
   id: string;
   nftsProcessedTracksByNftId: {
     nodes: {
