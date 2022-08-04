@@ -3,7 +3,7 @@ import {gql} from 'graphql-request';
 import {parseApiTrack} from '@/modelParsers';
 import {TRACK_FRAGMENT} from '@/queries/fragments';
 import {spindexClient} from '@/spindexClient';
-import {IApiNftResponse, ICollectionTrack, ITrack} from '@/types';
+import {IApiResponseCollection, ICollectionTrack, ITrack} from '@/types';
 
 const countTracksQuantity = (tracks: ITrack[]): ICollectionTrack[] => {
   const countedTrackIds = tracks.reduce<{[id: string]: ICollectionTrack}>(
@@ -48,7 +48,7 @@ export const fetchCollectionForAddress = async (
       address: address.toLowerCase(),
     },
   );
-  const nfts: IApiNftResponse[] = allNfts.nodes;
+  const nfts: IApiResponseCollection[] = allNfts.nodes;
   const tracks = nfts
     .map(node => node.nftsProcessedTracksByNftId.nodes[0])
     .filter(node => !!node)

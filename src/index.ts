@@ -3,6 +3,7 @@ import {spindexClient} from '@/spindexClient';
 
 export * from '@/queries/artists';
 export * from '@/queries/collection';
+export * from '@/queries/nfts';
 export * from '@/queries/platforms';
 export * from '@/queries/playlists';
 export * from '@/queries/tracks';
