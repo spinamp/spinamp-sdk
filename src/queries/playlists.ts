@@ -1,10 +1,10 @@
-import {Signer} from 'ethers';
+import { Signer } from 'ethers';
 
-import {parseApiPlaylist} from '@/modelParsers';
-import {playlistApiClient} from '@/playlistApiClient';
-import {fetchTracksByIds} from '@/queries/tracks';
-import {IApiResponsePlaylist, IPlaylist, ITrack} from '@/types';
-import {sanitizeId} from '@/utils/api';
+import { parseApiPlaylist } from '@/modelParsers';
+import { playlistApiClient } from '@/playlistApiClient';
+import { fetchTracksByIds } from '@/queries/tracks';
+import { IApiResponsePlaylist, IPlaylist, ITrack } from '@/types';
+import { isValidId } from '@/utils/api';
 
 export const fetchFeaturedPlaylists = async (): Promise<IPlaylist[]> => {
   const playlists = await playlistApiClient.get<IApiResponsePlaylist[]>(
@@ -15,7 +15,7 @@ export const fetchFeaturedPlaylists = async (): Promise<IPlaylist[]> => {
 
 export const fetchPlaylistById = async (
   playlistId: string,
-): Promise<{playlist: IPlaylist; playlistTracks: ITrack[]}> => {
+): Promise<{ playlist: IPlaylist; playlistTracks: ITrack[] }> => {
   const playlist = await playlistApiClient.get<IApiResponsePlaylist>(
     `playlist/${playlistId}`,
   );
@@ -56,7 +56,7 @@ export const updatePlaylist = async (
   id: string,
   data: Partial<IPlaylist>,
   signer: Signer,
-): Promise<{id: string; trackIds: string[]}> => {
+): Promise<{ id: string; trackIds: string[] }> => {
   const msg = JSON.stringify(data);
 
   const body = {
@@ -65,10 +65,12 @@ export const updatePlaylist = async (
     address: await signer.getAddress(),
   };
 
-  const cleanId = sanitizeId(id);
+  if(!isValidId(id)){
+    throw "Invalid playlist id";
+  }
 
   return playlistApiClient.put<IApiResponsePlaylist>(
-    `playlist/${cleanId}`,
+    `playlist/${id}`,
     body,
   );
 };

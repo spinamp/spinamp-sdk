@@ -1,1 +1,3 @@
-export const sanitizeId = (id: string) => (id ? id.replace(/\//g, '_') : '');
+export const isValidId = (id: string): boolean => {
+ return !id.includes('/')
+};
