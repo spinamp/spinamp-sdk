@@ -2,7 +2,7 @@ import {gql} from 'graphql-request';
 
 import {parseApiTrack} from '@/modelParsers';
 import {TRACK_FRAGMENT} from '@/queries/fragments';
-import {spindexerClient} from '@/spindexerClient';
+import {spindexClient} from '@/spindexClient';
 import {IApiNftResponse, ICollectionTrack, ITrack} from '@/types';
 
 const countTracksQuantity = (tracks: ITrack[]): ICollectionTrack[] => {
@@ -23,7 +23,7 @@ const countTracksQuantity = (tracks: ITrack[]): ICollectionTrack[] => {
 export const fetchCollectionForAddress = async (
   address: string,
 ): Promise<ICollectionTrack[]> => {
-  const {allErc721Nfts} = await spindexerClient.request(
+  const {allErc721Nfts} = await spindexClient.request(
     gql`
       query Collection($address: String) {
         allErc721Nfts(
