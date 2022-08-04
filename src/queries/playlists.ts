@@ -1,10 +1,10 @@
-import {Signer} from 'ethers'
+import {Signer} from 'ethers';
 
 import {parseApiPlaylist} from '@/modelParsers';
 import {playlistApiClient} from '@/playlistApiClient';
 import {fetchTracksByIds} from '@/queries/tracks';
 import {IApiResponsePlaylist, IPlaylist, ITrack} from '@/types';
-import { sanitizeId } from '@/utils/api';
+import {sanitizeId} from '@/utils/api';
 
 export const fetchFeaturedPlaylists = async (): Promise<IPlaylist[]> => {
   const playlists = await playlistApiClient.get<IApiResponsePlaylist[]>(
@@ -46,7 +46,7 @@ export const createPlaylist = async (
   const body = {
     msg,
     sig: await signer.signMessage(msg),
-    address: await signer.getAddress()
+    address: await signer.getAddress(),
   };
 
   return playlistApiClient.post<IApiResponsePlaylist>('playlist', body);
@@ -67,6 +67,8 @@ export const updatePlaylist = async (
 
   const cleanId = sanitizeId(id);
 
-  return playlistApiClient.put<IApiResponsePlaylist>(`playlist/${cleanId}`, body);
-
+  return playlistApiClient.put<IApiResponsePlaylist>(
+    `playlist/${cleanId}`,
+    body,
+  );
 };

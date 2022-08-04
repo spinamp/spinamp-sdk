@@ -1,4 +1,4 @@
-import { config } from '@/config';
+import {config} from '@/config';
 
 export const playlistApiClient = {
   get: <ResponseType>(url: string): Promise<ResponseType> => {
@@ -21,7 +21,10 @@ export const playlistApiClient = {
   },
   post: <ResponseType>(url: string, body: any): Promise<ResponseType> => {
     return new Promise((resolve, reject) => {
-      fetch(`${config.PLAYLIST_NODE_URL}/${url}`, { method: 'POST', body: JSON.stringify(body) })
+      fetch(`${config.PLAYLIST_NODE_URL}/${url}`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      })
         .then(response => {
           if (!response.ok) {
             reject({
@@ -39,7 +42,10 @@ export const playlistApiClient = {
   },
   put: <ResponseType>(url: string, body: any): Promise<ResponseType> => {
     return new Promise((resolve, reject) => {
-      fetch(`${config.PLAYLIST_NODE_URL}/${url}`, { method: 'PUT', body: JSON.stringify(body) })
+      fetch(`${config.PLAYLIST_NODE_URL}/${url}`, {
+        method: 'PUT',
+        body: JSON.stringify(body),
+      })
         .then(response => {
           if (!response.ok) {
             reject({
