@@ -2,7 +2,7 @@ import {gql} from 'graphql-request';
 
 import {parseApiTrack} from '@/modelParsers';
 import {TRACK_FRAGMENT} from '@/queries/fragments';
-import {spindexerClient} from '@/spindexerClient';
+import {spindexClient} from '@/spindexClient';
 import {IApiNftResponse, ICollectionTrack, ITrack} from '@/types';
 
 const countTracksQuantity = (tracks: ITrack[]): ICollectionTrack[] => {
@@ -23,16 +23,16 @@ const countTracksQuantity = (tracks: ITrack[]): ICollectionTrack[] => {
 export const fetchCollectionForAddress = async (
   address: string,
 ): Promise<ICollectionTrack[]> => {
-  const {allErc721Nfts} = await spindexerClient.request(
+  const {allNfts} = await spindexClient.request(
     gql`
       query Collection($address: String) {
-        allErc721Nfts(
+        allNfts(
           orderBy: CREATED_AT_TIME_DESC
           filter: {owner: {equalToInsensitive: $address}}
         ) {
           nodes {
             id
-            erc721NftsProcessedTracksByErc721NftId {
+            nftsProcessedTracksByNftId {
               nodes {
                 processedTrackByProcessedTrackId {
                   ...TrackDetails
@@ -48,9 +48,9 @@ export const fetchCollectionForAddress = async (
       address: address.toLowerCase(),
     },
   );
-  const nfts: IApiNftResponse[] = allErc721Nfts.nodes;
+  const nfts: IApiNftResponse[] = allNfts.nodes;
   const tracks = nfts
-    .map(node => node.erc721NftsProcessedTracksByErc721NftId.nodes[0])
+    .map(node => node.nftsProcessedTracksByNftId.nodes[0])
     .filter(node => !!node)
     .map(node => parseApiTrack(node.processedTrackByProcessedTrackId));
 

@@ -38,11 +38,11 @@ export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
 export const parseApiTrack = (track: IApiResponseTrack): ITrack => {
   const lossyAudioUrl =
     track.lossyAudioIpfsHash && track.lossyAudioIpfsHash !== ''
-      ? `${config.IPFS_GATEWAY_URL_AUDIO}${track.lossyAudioIpfsHash}?resource_type=video`
+      ? `${config.IPFS_GATEWAY_URL_AUDIO}/${track.lossyAudioIpfsHash}?resource_type=video`
       : track.lossyAudioUrl;
   const lossyArtworkUrl =
     track.lossyArtworkIpfsHash && track.lossyArtworkIpfsHash !== ''
-      ? `${config.IPFS_GATEWAY_URL_IMAGE}${track.lossyArtworkIpfsHash}`
+      ? `${config.IPFS_GATEWAY_URL_IMAGE}/${track.lossyArtworkIpfsHash}`
       : track.lossyArtworkUrl;
   return {
     id: track.id,
