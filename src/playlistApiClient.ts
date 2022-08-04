@@ -19,4 +19,54 @@ export const playlistApiClient = {
         .catch(reject);
     });
   },
+  post: <ResponseType>(url: string, body: any): Promise<ResponseType> => {
+    return new Promise((resolve, reject) => {
+      fetch(`${config.PLAYLIST_NODE_URL}/${url}`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            reject({
+              message: response.statusText,
+              code: response.status,
+            });
+            return;
+          }
+
+          return response.json();
+        })
+        .then(resolve)
+        .catch(reject);
+    });
+  },
+  put: <ResponseType>(url: string, body: any): Promise<ResponseType> => {
+    return new Promise((resolve, reject) => {
+      fetch(`${config.PLAYLIST_NODE_URL}/${url}`, {
+        method: 'PUT',
+        body: JSON.stringify(body),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            reject({
+              message: response.statusText,
+              code: response.status,
+            });
+            return;
+          }
+
+          return response.json();
+        })
+        .then(resolve)
+        .catch(reject);
+    });
+  },
 };
