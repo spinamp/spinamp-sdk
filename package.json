@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/spinamp/spinamp-sdk",
   "dependencies": {
+    "ethers": "^5.6.9",
     "graphql": "^16.5.0",
     "graphql-request": "^4.3.0"
   },
