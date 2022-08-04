@@ -24,6 +24,10 @@ export const playlistApiClient = {
       fetch(`${config.PLAYLIST_NODE_URL}/${url}`, {
         method: 'POST',
         body: JSON.stringify(body),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
       })
         .then(response => {
           if (!response.ok) {
@@ -45,6 +49,10 @@ export const playlistApiClient = {
       fetch(`${config.PLAYLIST_NODE_URL}/${url}`, {
         method: 'PUT',
         body: JSON.stringify(body),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
       })
         .then(response => {
           if (!response.ok) {
