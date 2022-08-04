@@ -66,7 +66,7 @@ export interface IApiResponsePlaylist extends IPlaylist {
 
 export interface IApiNftResponse {
   id: string;
-  erc721NftsProcessedTracksByErc721NftId: {
+  nftsProcessedTracksByNftId: {
     nodes: {
       processedTrackByProcessedTrackId: IApiResponseTrack;
     }[];
