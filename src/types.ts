@@ -63,6 +63,10 @@ export interface IPlaylist {
   collector?: string;
 }
 
+export interface ISyncedRecord {
+  updateAtTime: string; //timestamp
+}
+
 export interface IApiResponseArtist extends Omit<IArtist, 'profiles'> {
   artistProfilesByArtistId: {
     nodes: IArtistProfile[];

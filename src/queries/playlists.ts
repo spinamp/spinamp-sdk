@@ -3,7 +3,7 @@ import {Signer} from 'ethers';
 import {parseApiPlaylist} from '@/modelParsers';
 import {playlistApiClient} from '@/playlistApiClient';
 import {fetchTracksByIds} from '@/queries/tracks';
-import {IApiResponsePlaylist, IPlaylist, ITrack} from '@/types';
+import {IApiResponsePlaylist, IPlaylist, ISyncedRecord, ITrack} from '@/types';
 import {isValidId} from '@/utils/api';
 
 export const fetchFeaturedPlaylists = async (): Promise<IPlaylist[]> => {
@@ -41,7 +41,7 @@ export const createPlaylist = async (
   playlist: Omit<IPlaylist, 'id'>,
   signer: Signer,
 ): Promise<{id: string}> => {
-  const msg = JSON.stringify({...playlist, type: 'custom'});
+  const msg = JSON.stringify({...playlist, type: 'custom', updatedAtTime: Date.now().toString()});
 
   const body = {
     msg,
@@ -54,9 +54,12 @@ export const createPlaylist = async (
 
 export const updatePlaylist = async (
   id: string,
-  data: Partial<IPlaylist>,
+  data: Partial<IPlaylist & ISyncedRecord>,
   signer: Signer,
 ): Promise<{id: string; trackIds: string[]; title: string}> => {
+  if(!data.updateAtTime){
+    data.updateAtTime = Date.now().toString()
+  }
   const msg = JSON.stringify({...data, type: 'custom'});
 
   const body = {
