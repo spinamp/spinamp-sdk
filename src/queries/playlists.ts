@@ -41,7 +41,11 @@ export const createPlaylist = async (
   playlist: Omit<IPlaylist, 'id'>,
   signer: Signer,
 ): Promise<{id: string}> => {
-  const msg = JSON.stringify({...playlist, type: 'custom', updatedAtTime: Date.now().toString()});
+  const msg = JSON.stringify({
+    ...playlist,
+    type: 'custom',
+    updatedAtTime: Date.now().toString(),
+  });
 
   const body = {
     msg,
@@ -57,8 +61,8 @@ export const updatePlaylist = async (
   data: Partial<IPlaylist & ISyncedRecord>,
   signer: Signer,
 ): Promise<{id: string; trackIds: string[]; title: string}> => {
-  if(!data.updateAtTime){
-    data.updateAtTime = Date.now().toString()
+  if (!data.updateAtTime) {
+    data.updateAtTime = Date.now().toString();
   }
   const msg = JSON.stringify({...data, type: 'custom'});
 
