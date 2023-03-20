@@ -7,6 +7,7 @@ import {
   IApiResponsePlaylist,
   IPlaylist,
 } from '@/types';
+import {formatFirebaseId} from '@/utils/api';
 
 export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
   id: artist.id,
@@ -65,6 +66,6 @@ export const parseApiPlaylist = (
 ): IPlaylist => ({
   id: playlist.id,
   title: playlist.title,
-  trackIds: playlist.trackIds,
+  trackIds: playlist.trackIds?.map(formatFirebaseId),
   collector: playlist.collector,
 });

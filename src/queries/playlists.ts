@@ -4,7 +4,7 @@ import {parseApiPlaylist} from '@/modelParsers';
 import {playlistApiClient} from '@/playlistApiClient';
 import {fetchTracksByIds} from '@/queries/tracks';
 import {IApiResponsePlaylist, IPlaylist, ISyncedRecord, ITrack} from '@/types';
-import {isValidId} from '@/utils/api';
+import {formatFirebaseId, isValidId} from '@/utils/api';
 
 export const fetchFeaturedPlaylists = async (): Promise<IPlaylist[]> => {
   const playlists = await playlistApiClient.get<IApiResponsePlaylist[]>(
@@ -16,12 +16,13 @@ export const fetchFeaturedPlaylists = async (): Promise<IPlaylist[]> => {
 export const fetchPlaylistById = async (
   playlistId: string,
 ): Promise<{playlist: IPlaylist; playlistTracks: ITrack[]}> => {
-  const playlist = await playlistApiClient.get<IApiResponsePlaylist>(
+  const playlistResponse = await playlistApiClient.get<IApiResponsePlaylist>(
     `playlist/${playlistId}`,
   );
+  const playlist = parseApiPlaylist(playlistResponse);
   const playlistTracks = await fetchTracksByIds(playlist.trackIds);
   return {
-    playlist: parseApiPlaylist(playlist),
+    playlist,
     playlistTracks,
   };
 };
@@ -76,5 +77,13 @@ export const updatePlaylist = async (
     throw 'Invalid playlist id';
   }
 
-  return playlistApiClient.put<IApiResponsePlaylist>(`playlist/${id}`, body);
+  const updatedPlaylist = await playlistApiClient.put<IApiResponsePlaylist>(
+    `playlist/${id}`,
+    body,
+  );
+
+  return {
+    ...updatedPlaylist,
+    trackIds: updatedPlaylist.trackIds?.map(formatFirebaseId),
+  };
 };
