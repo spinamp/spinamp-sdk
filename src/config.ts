@@ -8,8 +8,8 @@ export interface IConfig {
 const defaultConfig: IConfig = {
   SPINDEX_NODE_URL: 'https://api.spinamp.xyz/v3/graphql',
   PLAYLIST_NODE_URL: 'https://us-central1-spinamp-prod.cloudfunctions.net',
-  IPFS_GATEWAY_URL_IMAGE: 'https://spinamp.mypinata.cloud/ipfs',
-  IPFS_GATEWAY_URL_AUDIO: 'https://snowfork.mo.cloudinary.net',
+  IPFS_GATEWAY_URL_IMAGE: 'https://media.spinamp.xyz/v1',
+  IPFS_GATEWAY_URL_AUDIO: 'https://media.spinamp.xyz/v1',
 };
 
 const _config: IConfig = {...defaultConfig};
