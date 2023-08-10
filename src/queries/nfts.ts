@@ -1,8 +1,9 @@
 import {gql} from 'graphql-request';
 
+import {parseApiNft} from '@/modelParsers';
 import {NFT_FRAGMENT} from '@/queries/fragments';
 import {spindexClient} from '@/spindexClient';
-import {INft, ITrackNft} from '@/types';
+import {IApiResponseNft, INft, ITrackNft} from '@/types';
 
 export const fetchTrackNfts = async (trackId: string): Promise<INft[]> => {
   const {allNftsProcessedTracks} = await spindexClient.request(
@@ -23,15 +24,18 @@ export const fetchTrackNfts = async (trackId: string): Promise<INft[]> => {
     {trackId},
   );
 
-  const nodes: {nftByNftId: INft}[] = allNftsProcessedTracks.nodes;
-  return nodes.map(({nftByNftId}) => nftByNftId);
+  const nodes: {nftByNftId: IApiResponseNft}[] = allNftsProcessedTracks.nodes;
+  return nodes.map(({nftByNftId}) => parseApiNft(nftByNftId));
 };
 
 export const fetchTrackNftsOwners = async (
   trackId: string,
 ): Promise<string[]> => {
   const nfts = await fetchTrackNfts(trackId);
-  const owners = nfts.map(({owner}) => owner);
+  const owners = nfts.reduce<string[]>(
+    (result, nft) => [...result, ...nft.owners],
+    [],
+  );
   return [...new Set(owners)];
 };
 
@@ -63,13 +67,13 @@ export const fetchArtistNfts = async (
 
   const trackNodes: {
     trackNfts: {
-      nodes: {processedTrackId: string; nftByNftId: INft}[];
+      nodes: {processedTrackId: string; nftByNftId: IApiResponseNft}[];
     };
   }[] = artistById.tracks.nodes;
 
   return trackNodes.reduce<ITrackNft[]>((result, track) => {
     const trackNfts = track.trackNfts.nodes.map(node => ({
-      ...node.nftByNftId,
+      ...parseApiNft(node.nftByNftId),
       trackId: node.processedTrackId,
     }));
     return [...result, ...trackNfts];
@@ -80,6 +84,9 @@ export const fetchArtistNftsOwners = async (
   artistId: string,
 ): Promise<string[]> => {
   const nfts = await fetchArtistNfts(artistId);
-  const owners = nfts.map(({owner}) => owner);
+  const owners = nfts.reduce<string[]>(
+    (result, nft) => [...result, ...nft.owners],
+    [],
+  );
   return [...new Set(owners)];
 };

@@ -44,11 +44,13 @@ export interface ICollectionTrack extends ITrack {
 export interface INft {
   id: string;
   createdAtTime: string;
-  createdAtEthereumBlockNumber: string;
+  createdAtBlockNumber: string;
+  chainId: string;
   tokenId: string;
   contractAddress: string;
   platformId: string;
   owner: string;
+  owners: string[];
   metadata: unknown;
 }
 
@@ -88,6 +90,14 @@ export interface IApiResponseCollection {
   nftsProcessedTracksByNftId: {
     nodes: {
       processedTrackByProcessedTrackId: IApiResponseTrack;
+    }[];
+  };
+}
+
+export interface IApiResponseNft extends Omit<INft, 'owner' | 'owners'> {
+  nftsCollectorsByNftId: {
+    nodes: {
+      addressId: string;
     }[];
   };
 }
