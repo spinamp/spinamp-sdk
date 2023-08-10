@@ -45,11 +45,16 @@ export const NFT_FRAGMENT = gql`
   fragment NftDetails on Nft {
     id
     createdAtTime
-    createdAtEthereumBlockNumber
+    createdAtBlockNumber
+    chainId
     tokenId
     contractAddress
     platformId
-    owner
+    nftsCollectorsByNftId {
+      nodes {
+        addressId
+      }
+    }
     metadata
   }
 `;

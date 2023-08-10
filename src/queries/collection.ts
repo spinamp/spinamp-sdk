@@ -4,6 +4,7 @@ import {parseApiTrack} from '@/modelParsers';
 import {TRACK_FRAGMENT} from '@/queries/fragments';
 import {spindexClient} from '@/spindexClient';
 import {IApiResponseCollection, ICollectionTrack, ITrack} from '@/types';
+import {formatAddressChecksum} from '@/utils/ethereum';
 
 const countTracksQuantity = (tracks: ITrack[]): ICollectionTrack[] => {
   const countedTrackIds = tracks.reduce<{[id: string]: ICollectionTrack}>(
@@ -28,7 +29,9 @@ export const fetchCollectionForAddress = async (
       query Collection($address: String) {
         allNfts(
           orderBy: CREATED_AT_TIME_DESC
-          filter: {owner: {equalToInsensitive: $address}}
+          filter: {
+            nftsCollectorsByNftId: {some: {addressId: {equalTo: $address}}}
+          }
         ) {
           nodes {
             id
@@ -45,7 +48,7 @@ export const fetchCollectionForAddress = async (
       ${TRACK_FRAGMENT}
     `,
     {
-      address: address.toLowerCase(),
+      address: formatAddressChecksum(address),
     },
   );
   const nfts: IApiResponseCollection[] = allNfts.nodes;

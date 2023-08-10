@@ -6,6 +6,8 @@ import {
   IApiResponseTrack,
   IApiResponsePlaylist,
   IPlaylist,
+  IApiResponseNft,
+  INft,
 } from '@/types';
 import {formatFirebaseId} from '@/utils/api';
 
@@ -69,3 +71,14 @@ export const parseApiPlaylist = (
   trackIds: playlist.trackIds?.map(formatFirebaseId),
   collector: playlist.collector,
 });
+
+export const parseApiNft = (nft: IApiResponseNft): INft => {
+  const {nftsCollectorsByNftId, ...parsedNft} = nft;
+  const owners = nftsCollectorsByNftId.nodes.map(node => node.addressId);
+
+  return {
+    ...parsedNft,
+    owners,
+    owner: owners[0],
+  };
+};
