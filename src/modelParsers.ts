@@ -1,4 +1,3 @@
-import {config} from '@/config';
 import {
   IArtist,
   ITrack,
@@ -10,6 +9,7 @@ import {
   INft,
 } from '@/types';
 import {formatFirebaseId} from '@/utils/api';
+import {getAudioUrl, getImageUrl} from "@/utils/media";
 
 export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
   id: artist.id,
@@ -29,7 +29,7 @@ export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
           platformId: currentProfile.platformId,
           name: currentProfile.name,
           createdAtTime: currentProfile.createdAtTime,
-          avatarUrl: currentProfile.avatarUrl,
+          avatarUrl: getImageUrl(currentProfile.avatarIpfsHash, currentProfile.avatarUrl),
           websiteUrl: currentProfile.websiteUrl,
         },
       };
@@ -39,14 +39,6 @@ export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
 });
 
 export const parseApiTrack = (track: IApiResponseTrack): ITrack => {
-  const lossyAudioUrl =
-    track.lossyAudioIpfsHash && track.lossyAudioIpfsHash !== ''
-      ? `${config.IPFS_GATEWAY_URL_AUDIO}/${track.lossyAudioIpfsHash}?resource_type=video`
-      : track.lossyAudioUrl;
-  const lossyArtworkUrl =
-    track.lossyArtworkIpfsHash && track.lossyArtworkIpfsHash !== ''
-      ? `${config.IPFS_GATEWAY_URL_IMAGE}/${track.lossyArtworkIpfsHash}`
-      : track.lossyArtworkUrl;
   return {
     id: track.id,
     platformInternalId: track.platformInternalId,
@@ -56,8 +48,8 @@ export const parseApiTrack = (track: IApiResponseTrack): ITrack => {
     platformId: track.platformId,
     description: track.description,
     websiteUrl: track.websiteUrl,
-    lossyAudioUrl,
-    lossyArtworkUrl,
+    lossyAudioUrl: getAudioUrl(track.lossyAudioIpfsHash, track.lossyAudioUrl),
+    lossyArtworkUrl: getImageUrl(track.lossyArtworkIpfsHash, track.lossyArtworkUrl),
     artistId: track.artistId,
     artist: parseApiArtist(track.artistByArtistId),
   };
