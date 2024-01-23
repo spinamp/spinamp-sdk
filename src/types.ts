@@ -19,6 +19,7 @@ export interface IArtistProfile {
   name: string;
   createdAtTime: string;
   avatarUrl?: string;
+  avatarIpfsHash?: string;
   websiteUrl?: string;
 }
 
