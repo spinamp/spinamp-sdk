@@ -1,4 +1,4 @@
-import {gql} from 'graphql-request';
+import { gql } from 'graphql-request';
 
 export const ARTIST_FRAGMENT = gql`
   fragment ArtistDetails on Artist {
@@ -6,6 +6,7 @@ export const ARTIST_FRAGMENT = gql`
     createdAtTime
     name
     slug
+    avatarIpfsHash
     artistProfilesByArtistId {
       nodes {
         avatarUrl
