@@ -8,8 +8,8 @@ import {
   IApiResponseNft,
   INft,
 } from '@/types';
-import { formatFirebaseId } from '@/utils/api';
-import { getAudioUrl, getImageUrl } from "@/utils/media";
+import {formatFirebaseId} from '@/utils/api';
+import {getAudioUrl, getImageUrl} from '@/utils/media';
 
 export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
   id: artist.id,
@@ -31,7 +31,10 @@ export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
           name: currentProfile.name,
           createdAtTime: currentProfile.createdAtTime,
           avatarIpfsHash: currentProfile.avatarIpfsHash,
-          avatarUrl: getImageUrl(currentProfile.avatarIpfsHash, currentProfile.avatarUrl),
+          avatarUrl: getImageUrl(
+            currentProfile.avatarIpfsHash,
+            currentProfile.avatarUrl,
+          ),
           websiteUrl: currentProfile.websiteUrl,
         },
       };
@@ -52,7 +55,10 @@ export const parseApiTrack = (track: IApiResponseTrack): ITrack => {
     websiteUrl: track.websiteUrl,
     lossyArtworkIPFSHash: track.lossyArtworkIpfsHash,
     lossyAudioUrl: getAudioUrl(track.lossyAudioIpfsHash, track.lossyAudioUrl),
-    lossyArtworkUrl: getImageUrl(track.lossyArtworkIpfsHash, track.lossyArtworkUrl),
+    lossyArtworkUrl: getImageUrl(
+      track.lossyArtworkIpfsHash,
+      track.lossyArtworkUrl,
+    ),
     artistId: track.artistId,
     artist: parseApiArtist(track.artistByArtistId),
   };
@@ -68,7 +74,7 @@ export const parseApiPlaylist = (
 });
 
 export const parseApiNft = (nft: IApiResponseNft): INft => {
-  const { nftsCollectorsByNftId, ...parsedNft } = nft;
+  const {nftsCollectorsByNftId, ...parsedNft} = nft;
   const owners = nftsCollectorsByNftId.nodes.map(node => node.addressId);
 
   return {

@@ -1,8 +1,8 @@
-import {config} from "@/config";
+import {config} from '@/config';
 
 export const getAudioUrl = (
   audioIpfsHash: string | undefined,
-  fallbackUrl: string
+  fallbackUrl: string,
 ) =>
   audioIpfsHash
     ? `${config.IPFS_GATEWAY_URL_AUDIO}/${audioIpfsHash}`

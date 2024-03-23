@@ -11,5 +11,8 @@ const setTransformationsOnCloudinaryUrl = (
 };
 
 export const getResizedArtworkUrl = (originalUrl: string, width: number) => {
-  return setTransformationsOnCloudinaryUrl(originalUrl, `c_fill,w_${width.toString()}`);
+  return setTransformationsOnCloudinaryUrl(
+    originalUrl,
+    `c_fill,w_${width.toString()}`,
+  );
 };
