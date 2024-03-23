@@ -9,13 +9,14 @@ import {
   INft,
 } from '@/types';
 import {formatFirebaseId} from '@/utils/api';
-import {getAudioUrl, getImageUrl} from "@/utils/media";
+import {getAudioUrl, getImageUrl} from '@/utils/media';
 
 export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
   id: artist.id,
   slug: artist.slug,
   createdAtTime: artist.createdAtTime,
   name: artist.name,
+  avatarIpfsHash: artist.avatarIpfsHash,
   profiles: artist.artistProfilesByArtistId.nodes.reduce(
     (profiles, currentProfile) => {
       if (!currentProfile) {
@@ -29,7 +30,11 @@ export const parseApiArtist = (artist: IApiResponseArtist): IArtist => ({
           platformId: currentProfile.platformId,
           name: currentProfile.name,
           createdAtTime: currentProfile.createdAtTime,
-          avatarUrl: getImageUrl(currentProfile.avatarIpfsHash, currentProfile.avatarUrl),
+          avatarIpfsHash: currentProfile.avatarIpfsHash,
+          avatarUrl: getImageUrl(
+            currentProfile.avatarIpfsHash,
+            currentProfile.avatarUrl,
+          ),
           websiteUrl: currentProfile.websiteUrl,
         },
       };
@@ -48,8 +53,12 @@ export const parseApiTrack = (track: IApiResponseTrack): ITrack => {
     platformId: track.platformId,
     description: track.description,
     websiteUrl: track.websiteUrl,
+    lossyArtworkIPFSHash: track.lossyArtworkIpfsHash,
     lossyAudioUrl: getAudioUrl(track.lossyAudioIpfsHash, track.lossyAudioUrl),
-    lossyArtworkUrl: getImageUrl(track.lossyArtworkIpfsHash, track.lossyArtworkUrl),
+    lossyArtworkUrl: getImageUrl(
+      track.lossyArtworkIpfsHash,
+      track.lossyArtworkUrl,
+    ),
     artistId: track.artistId,
     artist: parseApiArtist(track.artistByArtistId),
   };

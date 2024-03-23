@@ -6,6 +6,7 @@ export const ARTIST_FRAGMENT = gql`
     createdAtTime
     name
     slug
+    avatarIpfsHash
     artistProfilesByArtistId {
       nodes {
         avatarUrl

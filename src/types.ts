@@ -8,6 +8,7 @@ export interface IArtist {
   name: string;
   createdAtTime: string;
   slug: string;
+  avatarIpfsHash: string;
   profiles: {
     [key: string]: IArtistProfile;
   };
@@ -32,6 +33,7 @@ export interface ITrack {
   artistId: string;
   artist: IArtist;
   lossyAudioUrl: string;
+  lossyArtworkIPFSHash?: string;
   lossyArtworkUrl?: string;
   description?: string;
   createdAtTime?: string;
